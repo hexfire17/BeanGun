@@ -80,6 +80,7 @@ public class MapGenerator : MonoBehaviour {
 				currentObsticleCount--;
 			}
 		}
+		_openShuffledPoints = new Queue<Point> (Utility.FisherShuffle(openCoords.ToArray (), _currentMap._seed));
 		
 		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4f * _tileSize, Quaternion.identity) as Transform;
 		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _tileSize;
@@ -136,7 +137,6 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 		
-		Debug.Log("Iterations: " + iterations + ", " + currFloodCount);
 		return (currFloodCount == (obsticleMap.GetLength(0) * obsticleMap.GetLength(1)));
 	}
 	
@@ -158,6 +158,13 @@ public class MapGenerator : MonoBehaviour {
 		Point point = _shuffledPoints.Dequeue();	
 		_shuffledPoints.Enqueue (point);
 		return point;
+	}
+
+	public Transform getRandomTile()
+	{
+		Point point = _openShuffledPoints.Dequeue ();
+		_openShuffledPoints.Enqueue (point);
+		return _tileMap[point._x, point._y];
 	}
 	
 	[System.Serializable]

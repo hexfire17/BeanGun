@@ -5,6 +5,9 @@ public class Spawner : MonoBehaviour {
 	
 	void Start()
 	{
+		Debug.Log ("Spawner started");
+
+		_map = FindObjectOfType<MapGenerator> ();
 		NextWave();	
 	}
 	
@@ -12,12 +15,34 @@ public class Spawner : MonoBehaviour {
 	{
 		if (_enemiesRemainingToSpawn > 0 && Time.time > _nextSpawnTime)
 		{
+			Debug.Log ("Spawning Enemy");
 			_enemiesRemainingToSpawn--;
-			_nextSpawnTime = Time.time + _currentWave._timeBetweenWaves;
-			
-			Enemy spawnedEnemy = Instantiate(_enemy, Vector3.zero, Quaternion.identity) as Enemy;
-			spawnedEnemy.onDeath += OnEnemyDeath;
+			StartCoroutine (SpawnEnemy ());
 		}
+	}
+
+	IEnumerator SpawnEnemy()
+	{
+		_nextSpawnTime = Time.time + _currentWave._timeBetweenWaves;
+
+		float spawnDelay = 1;
+		float tileFlashSpeed = 4;
+
+		Transform tile = _map.getRandomTile ();
+		Material tileMaterial = tile.GetComponent<Renderer> ().material;
+		Color tileColor = tileMaterial.color;
+		Color flashColor = Color.red;
+		float spawnTimer = 0;
+		while (spawnTimer < spawnDelay)
+		{
+			tileMaterial.color = Color.Lerp (tileColor, flashColor, Mathf.PingPong (spawnTimer * tileFlashSpeed, 1));
+			spawnTimer += Time.deltaTime;
+			yield return null; // TODO figure out why
+		}
+		tileMaterial.color = tileColor;
+
+		Enemy spawnedEnemy = Instantiate(_enemy, tile.position + Vector3.up, Quaternion.identity) as Enemy;
+		spawnedEnemy.onDeath += OnEnemyDeath;
 	}
 	
 	void NextWave()
@@ -51,6 +76,8 @@ public class Spawner : MonoBehaviour {
 	
 	public Wave[] _waves;
 	public Enemy _enemy;
+
+	MapGenerator _map;
 	
     [System.Serializable]
 	public class Wave
