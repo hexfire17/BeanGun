@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour {
 	public void GenerateMap()
 	{
 		_currentMap = _maps [_mapIndex];
+		System.Random random = new System.Random (_currentMap._seed);
 
 		Debug.Log("Generating map with seed: " + _currentMap._seed);
 		string holderName = "Generated_Map";
@@ -55,10 +56,17 @@ public class MapGenerator : MonoBehaviour {
 			currentObsticleCount++;
 			if (!randomPoint.Equals(playerSpawn) && MapIsFullyAccessible(obsticleMap, currentObsticleCount))
 			{
+				float obsticleHeight = Mathf.Lerp (_currentMap._minObsticleHeight, _currentMap._maxObsticleHeight, (float)random.NextDouble ());
 				Vector3 position = randomPoint.toVector3(_currentMap._size, _tileSize);
-				Transform obsticle = Instantiate(_obsticlePrefab, (position + (Vector3.up * .5f * _tileSize * (1-decimalOutlinePercent))), Quaternion.identity) as Transform;
-				obsticle.localScale = Vector3.one * (1-decimalOutlinePercent) * _tileSize;
-				obsticle.parent = mapHolder;
+				Transform obsticle = Instantiate(_obsticlePrefab, (position + (Vector3.up * (obsticleHeight/2f) * _tileSize * (1-decimalOutlinePercent))), Quaternion.identity) as Transform;
+				obsticle.localScale = new Vector3 ((1-decimalOutlinePercent) * _tileSize, obsticleHeight, (1-decimalOutlinePercent) * _tileSize);
+				obsticle.parent = mapHolder; 
+
+				Renderer renderer = obsticle.GetComponent<Renderer> ();
+				Material material = new Material (renderer.sharedMaterial);
+				float colorPercent = (randomPoint._y / (float) _currentMap._size._y);
+				material.color = Color.Lerp (_currentMap._foreGroundColor, _currentMap._backGroundColor, colorPercent);
+				renderer.sharedMaterial = material;
 			}
 			else
 			{
@@ -67,17 +75,17 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
 		
-		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4 * _tileSize, Quaternion.identity) as Transform;
-		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2, 1, _currentMap._size._y) * _tileSize;
+		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4f * _tileSize, Quaternion.identity) as Transform;
+		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _tileSize;
 		
-		Transform maskRight = Instantiate(_navMeshMaskPrefab, Vector3.right * (_currentMap._size._x + _maxMapSize.x) / 4 * _tileSize, Quaternion.identity) as Transform;
-		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2, 1, _currentMap._size._y) * _tileSize;
+		Transform maskRight = Instantiate(_navMeshMaskPrefab, Vector3.right * (_currentMap._size._x + _maxMapSize.x) / 4f * _tileSize, Quaternion.identity) as Transform;
+		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _tileSize;
 		
-		Transform maskTop = Instantiate(_navMeshMaskPrefab, Vector3.forward * (_currentMap._size._y + _maxMapSize.y) / 4 * _tileSize, Quaternion.identity) as Transform;
-		maskTop.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2) * _tileSize;
+		Transform maskTop = Instantiate(_navMeshMaskPrefab, Vector3.forward * (_currentMap._size._y + _maxMapSize.y) / 4f * _tileSize, Quaternion.identity) as Transform;
+		maskTop.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _tileSize;
 
-		Transform maskBottom = Instantiate(_navMeshMaskPrefab, Vector3.back * (_currentMap._size._y + _maxMapSize.y) / 4 * _tileSize, Quaternion.identity) as Transform;
-		maskBottom.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2) * _tileSize;
+		Transform maskBottom = Instantiate(_navMeshMaskPrefab, Vector3.back * (_currentMap._size._y + _maxMapSize.y) / 4f * _tileSize, Quaternion.identity) as Transform;
+		maskBottom.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _tileSize;
 
 		maskLeft.parent = mapHolder;
 		maskRight.parent = mapHolder;
@@ -157,7 +165,7 @@ public class MapGenerator : MonoBehaviour {
 		
 		public Vector3 toVector3 (Point mapSize, float tileSize)
 		{
-			return new Vector3(-mapSize._x/2 + 0.5f + _x, 0, -mapSize._y/2 + 0.5f + _y) * tileSize;
+			return new Vector3(-mapSize._x/2f + 0.5f + _x, 0, -mapSize._y/2f + 0.5f + _y) * tileSize;
 		}
 		
 		public bool Equals(Point other)
