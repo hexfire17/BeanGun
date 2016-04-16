@@ -12,7 +12,9 @@ public class MapGenerator : MonoBehaviour {
 	public void GenerateMap()
 	{
 		_currentMap = _maps [_mapIndex];
+		GetComponent<BoxCollider> ().size = new Vector3 (_currentMap._size._x * _tileSize, .05f, _currentMap._size._y * _tileSize);
 		System.Random random = new System.Random (_currentMap._seed);
+		_tileMap = new Transform[_currentMap._size._x, _currentMap._size._y];
 
 		Debug.Log("Generating map with seed: " + _currentMap._seed);
 		string holderName = "Generated_Map";
@@ -40,6 +42,7 @@ public class MapGenerator : MonoBehaviour {
 				Transform newTile = Instantiate(_tilePrefab, tilePosition, Quaternion.Euler(Vector3.right*90)) as Transform;
 				newTile.localScale = Vector3.one * (1- decimalOutlinePercent) * _tileSize;
 				newTile.parent = mapHolder;
+				_tileMap [x, y] = newTile;
 			}
 		}
 		
@@ -49,6 +52,7 @@ public class MapGenerator : MonoBehaviour {
 		int totalTiles = (int) (_currentMap._size._x * _currentMap._size._y);
 		int obsticleTiles = (int) (totalTiles * (_currentMap._obsticlePercent / 100f));
 		int currentObsticleCount = 0;
+		List<Point> openCoords = new List<Point> (_points);
 		for (int i = 0; i < obsticleTiles; i++)
 		{
 			Point randomPoint = getRandPoint ();
@@ -56,12 +60,14 @@ public class MapGenerator : MonoBehaviour {
 			currentObsticleCount++;
 			if (!randomPoint.Equals(playerSpawn) && MapIsFullyAccessible(obsticleMap, currentObsticleCount))
 			{
+				openCoords.Remove (randomPoint);
+
 				float obsticleHeight = Mathf.Lerp (_currentMap._minObsticleHeight, _currentMap._maxObsticleHeight, (float)random.NextDouble ());
 				Vector3 position = randomPoint.toVector3(_currentMap._size, _tileSize);
 				Transform obsticle = Instantiate(_obsticlePrefab, (position + (Vector3.up * (obsticleHeight/2f) * _tileSize * (1-decimalOutlinePercent))), Quaternion.identity) as Transform;
 				obsticle.localScale = new Vector3 ((1-decimalOutlinePercent) * _tileSize, obsticleHeight, (1-decimalOutlinePercent) * _tileSize);
-				obsticle.parent = mapHolder; 
-
+				obsticle.parent = mapHolder;
+					
 				Renderer renderer = obsticle.GetComponent<Renderer> ();
 				Material material = new Material (renderer.sharedMaterial);
 				float colorPercent = (randomPoint._y / (float) _currentMap._size._y);
@@ -208,9 +214,12 @@ public class MapGenerator : MonoBehaviour {
 	
 	List<Point> _points;
 	Queue<Point> _shuffledPoints;
+	Queue<Point> _openShuffledPoints;
 
 	public Transform _navmeshFloor;
 	public Vector2 _maxMapSize;
 	
 	public Transform _navMeshMaskPrefab;
+
+	private Transform [,] _tileMap;
 }
