@@ -166,6 +166,15 @@ public class MapGenerator : MonoBehaviour {
 		_openShuffledPoints.Enqueue (point);
 		return _tileMap[point._x, point._y];
 	}
+
+	public Transform getTile(Vector3 position)
+	{
+		int x = Mathf.RoundToInt (position.x / _tileSize + (_currentMap._size._x - 1) / 2f);
+		int y = Mathf.RoundToInt (position.z / _tileSize + (_currentMap._size._y - 1) / 2f);
+		x = Mathf.Clamp (x, 0, _tileMap.GetLength (0));
+		y = Mathf.Clamp (y, 0, _tileMap.GetLength (1));
+		return _tileMap [x, y];
+	}
 	
 	[System.Serializable]
 	public struct Point
