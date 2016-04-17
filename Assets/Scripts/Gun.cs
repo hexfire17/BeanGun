@@ -5,7 +5,6 @@ public class Gun : MonoBehaviour
 {
 	public void Shoot()
 	{
-		Debug.Log("Shooting");
 		if (Time.time > _nextShotTime) 
 		{
 			_nextShotTime = Time.time + _millisBetweenShots / 1000;

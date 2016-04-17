@@ -6,7 +6,8 @@ public class MapGenerator : MonoBehaviour {
 	
 	public void Start()
 	{
-		GenerateMap();	
+		_mapIndex = 0;
+		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 	
 	public void GenerateMap()
@@ -174,6 +175,12 @@ public class MapGenerator : MonoBehaviour {
 		x = Mathf.Clamp (x, 0, _tileMap.GetLength (0) - 1);
 		y = Mathf.Clamp (y, 0, _tileMap.GetLength (1) - 1);
 		return _tileMap [x, y];
+	}
+	void OnNewWave(int waveNumber)
+	{
+		Debug.Log ("Generating map " + waveNumber);
+		_mapIndex = waveNumber;
+		GenerateMap ();
 	}
 	
 	[System.Serializable]

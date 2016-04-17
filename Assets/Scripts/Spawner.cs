@@ -69,6 +69,10 @@ public class Spawner : MonoBehaviour {
 	
 	void NextWave()
 	{
+		if (OnNewWave != null) {
+			OnNewWave (_currentWaveNumber);
+		}
+
 		if (_currentWaveNumber < _waves.Length)
 		{
 	  		_currentWave = _waves[_currentWaveNumber];
@@ -76,6 +80,12 @@ public class Spawner : MonoBehaviour {
 			_enemiesRemainingToSpawn = _currentWave._enemeyCount;
 			_enemiesRemaining = _currentWave._enemeyCount;
 		}
+		ResetPlayerPosition (); 
+	}
+
+	void ResetPlayerPosition ()
+	{
+		_playerEntity.transform.position = _map.getTile (Vector3.zero + Vector3.up * 3).position;
 	}
 	
 	void OnEnemyDeath()
@@ -92,6 +102,8 @@ public class Spawner : MonoBehaviour {
 	{
 		_playerDead = true;
 	}
+
+	public event System.Action<int> OnNewWave;
 	 
 	int _enemiesRemaining;
 	
