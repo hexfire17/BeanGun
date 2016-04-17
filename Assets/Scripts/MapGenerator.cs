@@ -171,8 +171,8 @@ public class MapGenerator : MonoBehaviour {
 	{
 		int x = Mathf.RoundToInt (position.x / _tileSize + (_currentMap._size._x - 1) / 2f);
 		int y = Mathf.RoundToInt (position.z / _tileSize + (_currentMap._size._y - 1) / 2f);
-		x = Mathf.Clamp (x, 0, _tileMap.GetLength (0));
-		y = Mathf.Clamp (y, 0, _tileMap.GetLength (1));
+		x = Mathf.Clamp (x, 0, _tileMap.GetLength (0) - 1);
+		y = Mathf.Clamp (y, 0, _tileMap.GetLength (1) - 1);
 		return _tileMap [x, y];
 	}
 	

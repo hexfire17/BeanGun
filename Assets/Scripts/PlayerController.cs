@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void FixedUpdate ()
 	{
+		_myRigidBody.velocity = Vector3.zero; // stop it from drifting after collision
 		_myRigidBody.MovePosition (_myRigidBody.position + _velocity * Time.fixedDeltaTime);
 	}
 

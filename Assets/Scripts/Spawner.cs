@@ -7,6 +7,7 @@ public class Spawner : MonoBehaviour {
 	{
 		Debug.Log ("Spawner started");
 
+		_playerDead = false;
 		_playerEntity = FindObjectOfType<Player> ();
 		_playerTransform = _playerEntity.transform;
 
@@ -14,11 +15,14 @@ public class Spawner : MonoBehaviour {
 		_previousCampPosition = _playerTransform.position;
 
 		_map = FindObjectOfType<MapGenerator> ();
+		_playerEntity.onDeath += OnPlayerDeath;
 		NextWave();	
 	}
 	
 	void Update()
 	{
+		if (_playerDead) {return;}
+
 		if (Time.time > _nextCampCheckTime)
 		{
 			_nextCampCheckTime = Time.time + _campCheckInterval;
@@ -83,6 +87,11 @@ public class Spawner : MonoBehaviour {
 		}
 		Debug.Log ("Enemy Died");
 	}
+
+	void OnPlayerDeath()
+	{
+		_playerDead = true;
+	}
 	 
 	int _enemiesRemaining;
 	
@@ -105,6 +114,7 @@ public class Spawner : MonoBehaviour {
 	float _nextCampCheckTime;
 	Vector3 _previousCampPosition;
 	bool _isCamping;
+	bool _playerDead;
 	
     [System.Serializable]
 	public class Wave
