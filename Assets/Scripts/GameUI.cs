@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
 		FindObjectOfType<Player> ().onDeath += GameOver;
+	}
+
+	public void StartNewGame ()
+	{
+		Debug.Log ("Starting New Game");
+		SceneManager.LoadScene ("Main");
 	}
 
 	void GameOver ()

@@ -23,7 +23,7 @@ public class LivingEntitiy : MonoBehaviour, IDamageable {
 		}	
 	}
 
-	
+	[ContextMenu("Kill")] // TODO why doesn't this work...? supposed to be able to right click on script
 	void Die()
 	{
 		Debug.Log("Dead: " + gameObject.name);
