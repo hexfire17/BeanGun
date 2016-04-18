@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour {
 	
-	public void Start()
+	public void Awake()
 	{
+		Debug.Log ("Map Generator Started");
 		_mapIndex = 0;
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
