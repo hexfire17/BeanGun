@@ -8,15 +8,15 @@ public class LivingEntitiy : MonoBehaviour, IDamageable {
 		_health = _startingHealth;	
 	}
 	
-		public void takeHit(float damage, RaycastHit hit)
+	public virtual void takeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
 	{
-		// do some stuff with hit later
 		takeDamage(damage);
 	}
 	
-	public void takeDamage(float damage)
+	public virtual void takeDamage(float damage)
 	{
 		_health -= damage;
+		Debug.Log (this.name + " health: " + _health);
 		if (_health <= 0 && _isAlive)
 		{
 			Die();	

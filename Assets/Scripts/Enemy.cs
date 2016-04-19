@@ -44,6 +44,17 @@ public class Enemy : LivingEntitiy {
 			StartCoroutine(Attack());
 		}
 	}
+
+	public override void takeHit (float damage, Vector3 hitPoint, Vector3 hitDirection)
+	{
+		if (damage >= _health)
+		{
+			Debug.Log ("Spawning Death Effect");
+			// TODO why are these not being destroyed...?
+			Destroy(Instantiate (_deathEffect, hitPoint, Quaternion.FromToRotation (Vector3.forward, hitDirection)) as GameObject, _deathEffect.startLifetime);
+		}
+		base.takeHit (damage, hitPoint, hitDirection);
+	}
 	
 	IEnumerator Attack()
 	{
@@ -104,7 +115,9 @@ public class Enemy : LivingEntitiy {
 	float _targetCollisionRadius;
 	
 	float _damage = 1;
-	
+
+	public ParticleSystem _deathEffect;
+
 	Material _skinMaterial;
 	
 	LivingEntitiy _targetEntity;

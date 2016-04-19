@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour {
 		Collider[] initialCollisions = Physics.OverlapSphere(transform.position, .1f, _collisionMask);
 		if (initialCollisions.Length > 0)
 		{
-			onHitObject(initialCollisions[0]);
+			onHitObject(initialCollisions[0], transform.position);
 		}
 	}
 	
@@ -34,27 +34,16 @@ public class Projectile : MonoBehaviour {
 
 		if (Physics.Raycast (ray, out hit, moveDistance + _skinWidth, _collisionMask, QueryTriggerInteraction.Collide))
 		{
-			onHitObject(hit);
+			onHitObject(hit.collider, hit.point);
 		}
 	}
 	
-	void onHitObject(RaycastHit hit)
-	{
-		IDamageable damageableObject = hit.collider.GetComponent<IDamageable> ();
-		if (damageableObject != null)
-		{
-			damageableObject.takeHit(_damage, hit);
-			GameObject.Destroy(gameObject);
-		}
-		Debug.Log("Hit: " + hit.collider.gameObject.name);
-	}
-	
-	void onHitObject(Collider c)
+	void onHitObject(Collider c, Vector3 hitPoint)
 	{
 		IDamageable damageableObject = c.GetComponent<IDamageable> ();
 		if (damageableObject != null)
 		{
-			damageableObject.takeDamage(_damage);
+			damageableObject.takeHit(_damage, hitPoint, transform.forward);
 			GameObject.Destroy(gameObject);
 		}
 		Debug.Log("Hit: " + c.gameObject.name);
