@@ -51,7 +51,7 @@ public class Enemy : LivingEntitiy {
 		{
 			Debug.Log ("Spawning Death Effect");
 			// TODO why are these not being destroyed...?
-			Destroy(Instantiate (_deathEffect, hitPoint, Quaternion.FromToRotation (Vector3.forward, hitDirection)) as GameObject, _deathEffect.startLifetime);
+			Instantiate (_deathEffect, hitPoint, Quaternion.FromToRotation (Vector3.forward, hitDirection));
 		}
 		base.takeHit (damage, hitPoint, hitDirection);
 	}
