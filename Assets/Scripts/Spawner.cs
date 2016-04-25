@@ -85,7 +85,7 @@ public class Spawner : MonoBehaviour {
 
 	void ResetPlayerPosition ()
 	{
-		_playerEntity.transform.position = _map.getTile (Vector3.zero + Vector3.up * 3).position;
+		_playerEntity.transform.position = _map.getTile (Vector3.zero).position + Vector3.up;
 	}
 	
 	void OnEnemyDeath()
