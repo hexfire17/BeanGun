@@ -10,6 +10,8 @@ public class Gun : MonoBehaviour
 			_nextShotTime = Time.time + _millisBetweenShots / 1000;
 			Projectile projectile = Instantiate (_projectile, _muzzle.position, _muzzle.rotation) as Projectile;
 			projectile.SetSpeed (_projectileVelocity);
+
+			Instantiate (_shell, _shellEjectionPoint.position, _shellEjectionPoint.rotation);
 		}
 	}
 
@@ -19,4 +21,6 @@ public class Gun : MonoBehaviour
 	public Projectile _projectile;
 	public float _millisBetweenShots = 100;
 	public float _projectileVelocity = 35;
+	public Transform _shell;
+	public Transform _shellEjectionPoint;
 }
