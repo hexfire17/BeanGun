@@ -1,0 +1,153 @@
+fileFormatVersion: 2
+guid: 5a50d85d1505a4058a55590e86994f13
+timeCreated: 1461702926
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: MuzzleFlash_0
+    21300002: MuzzleFlash_1
+    21300004: MuzzleFlash_2
+    21300006: MuzzleFlash_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: MuzzleFlash_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -173, y: 90}
+        - {x: -182, y: 71}
+        - {x: -185, y: 51}
+        - {x: -185, y: -5}
+        - {x: -180, y: -82}
+        - {x: -133, y: -82}
+        - {x: -114, y: -73}
+        - {x: -114, y: 65}
+        - {x: -120, y: 90}
+      - - {x: -107, y: 32}
+        - {x: -118, y: 1}
+        - {x: -118, y: -40}
+        - {x: 44, y: -40}
+        - {x: 52, y: -39}
+        - {x: 52, y: 32}
+    - name: MuzzleFlash_1
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 200
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 65, y: 41}
+        - {x: 40, y: 44}
+        - {x: -194, y: 44}
+        - {x: -194, y: -54}
+        - {x: 175, y: -54}
+        - {x: 200, y: -49}
+        - {x: 200, y: 7}
+        - {x: 191, y: 20}
+    - name: MuzzleFlash_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -109, y: 77}
+        - {x: -175, y: 77}
+        - {x: -189, y: 58}
+        - {x: -189, y: -51}
+        - {x: -169, y: -69}
+        - {x: -85, y: -69}
+        - {x: 12, y: -2}
+        - {x: 12, y: 28}
+        - {x: 2, y: 44}
+    - name: MuzzleFlash_3
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 400
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -58, y: 53}
+        - {x: -191, y: -1}
+        - {x: -200, y: -19}
+        - {x: -200, y: -34}
+        - {x: -37, y: -34}
+        - {x: 47, y: -12}
+        - {x: 47, y: 53}
+      - - {x: -162, y: 55}
+        - {x: -167, y: 47}
+        - {x: -167, y: 26}
+        - {x: -165, y: 19}
+        - {x: -152, y: 13}
+        - {x: -135, y: 13}
+        - {x: -132, y: 17}
+        - {x: -132, y: 47}
+        - {x: -136, y: 55}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

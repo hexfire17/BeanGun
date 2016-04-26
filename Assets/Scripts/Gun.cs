@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Gun : MonoBehaviour
 {
+	void Start ()
+	{
+		_muzzleFlash = GetComponent <MuzzleFlash> ();
+	}
+
 	public void Shoot()
 	{
 		if (Time.time > _nextShotTime) 
@@ -11,11 +16,13 @@ public class Gun : MonoBehaviour
 			Projectile projectile = Instantiate (_projectile, _muzzle.position, _muzzle.rotation) as Projectile;
 			projectile.SetSpeed (_projectileVelocity);
 
+			_muzzleFlash.Activate ();
 			Instantiate (_shell, _shellEjectionPoint.position, _shellEjectionPoint.rotation);
 		}
 	}
 
 	float _nextShotTime;
+	MuzzleFlash _muzzleFlash;
 
 	public Transform _muzzle;
 	public Projectile _projectile;
