@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Shell.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
+     <Compile Include="Assets\Scripts\VirtualJoystick.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
