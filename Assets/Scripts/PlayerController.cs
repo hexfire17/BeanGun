@@ -8,11 +8,7 @@ public class PlayerController : MonoBehaviour {
 	void Start ()
 	{
 		_myRigidBody = GetComponent<Rigidbody> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		_startHeight = transform.position.y;
 	}
 
 	public void Move (Vector3 velocity)
@@ -23,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	public void FixedUpdate ()
 	{
 		_myRigidBody.velocity = Vector3.zero; // stop it from drifting after collision
+		transform.position = new Vector3(transform.position.x, _startHeight, transform.position.z); // stop from floating over shit
 		_myRigidBody.MovePosition (_myRigidBody.position + _velocity * Time.fixedDeltaTime);
 	}
 
@@ -34,4 +31,5 @@ public class PlayerController : MonoBehaviour {
 
 	Rigidbody _myRigidBody;
 	Vector3 _velocity;
+	float _startHeight;
 }
