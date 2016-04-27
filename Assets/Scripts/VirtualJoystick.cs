@@ -7,9 +7,13 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 {
 	void Start ()
 	{
-		Debug.Log ("bg image: " + _backgroundImage.name);
-		Debug.Log ("stick image: " + _stickImage.name);
 		FindObjectOfType<Player> ().onDeath += DisableJoystick;
+
+		_startingPosition = _stickImage.transform.position;
+
+		Vector3 stickRadius = _stickImage.rectTransform.sizeDelta * .5f;
+		_radius = (_backgroundImage.rectTransform.sizeDelta * .5f);
+		_radius -= stickRadius;
 	}
 
 	private void DisableJoystick ()
@@ -19,37 +23,31 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
 	public virtual void OnDrag (PointerEventData ped)
 	{
-		Debug.Log ("Pointer Drag");
-
 		Vector2 position;
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_backgroundImage.rectTransform, ped.position, ped.pressEventCamera, out position))
 		{
 			position.x = (position.x / _backgroundImage.rectTransform.sizeDelta.x);
-			position.y = (position.x / _backgroundImage.rectTransform.sizeDelta.y);
+			position.y = (position.y / _backgroundImage.rectTransform.sizeDelta.y);
 
-			_inputVector = new Vector3 (position.x * 2 + 1, 0, position.y * 2 - 1);
+			_inputVector = new Vector3 (position.x * 2 + 1, position.y * 2 - 1, 0);
 			if (_inputVector.magnitude > 1f)
 			{
 				_inputVector = _inputVector.normalized;
 			}
 
-			_stickImage.rectTransform.anchorMax = new Vector3 (_inputVector.x * (_backgroundImage.rectTransform.sizeDelta.x / 2),
-				_backgroundImage.rectTransform.sizeDelta.y / 2);
-			Debug.Log(position);
+			_stickImage.transform.position = _startingPosition + Vector3.Scale (_inputVector, _radius);
 		}
 	}
 
 	public virtual void OnPointerDown (PointerEventData ped)
 	{
-		Debug.Log ("Pointer Down");
 		OnDrag (ped);
 	}
 
 	public virtual void OnPointerUp (PointerEventData ped)
 	{
-		Debug.Log ("Pointer Up");
 		_inputVector = Vector3.zero;
-		_stickImage.rectTransform.anchoredPosition = Vector3.zero;
+		_stickImage.transform.position = _startingPosition;
 	}
 
 	public Vector2 getInputVector ()
@@ -60,5 +58,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 	public Image _backgroundImage;
 	public Image _stickImage;
 
+	private Vector3 _startingPosition;
+	private Vector3 _radius;
 	private Vector3 _inputVector;
 }

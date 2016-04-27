@@ -9,18 +9,33 @@ public class Player : LivingEntitiy
 	// Use this for initialization
 	public override void Start ()
 	{
+		Debug.Log("Count" + Input.touchCount);
 		base.Start ();
 		_controller = GetComponent<PlayerController> ();
 		_viewCamera = Camera.main;
 		_gunController = GetComponent<GunController> ();
+		_joystick.gameObject.SetActive (_isAndroid);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		// Movement
-		int zAxis = 0;
-		Vector3 moveInput = new Vector3 (Input.GetAxis ("Horizontal"), zAxis, Input.GetAxis ("Vertical"));
+		float horizMove = 0;
+		float virtMove = 0;
+		if (_isAndroid)
+		{
+			Vector2 joystickVector = _joystick.getInputVector ();
+			horizMove = joystickVector.x;
+			virtMove = joystickVector.y;
+		} 
+		else 
+		{
+			horizMove = Input.GetAxis ("Horizontal");
+			virtMove = Input.GetAxis ("Vertical");
+		}
+
+		Vector3 moveInput = new Vector3 (horizMove, 0, virtMove);
 		Vector3 moveVelocity = moveInput.normalized * _moveSpeed;
 		_controller.Move (moveVelocity);
 
@@ -42,11 +57,13 @@ public class Player : LivingEntitiy
 			_gunController.Shoot();
 		}
 	}
-
+		
 	PlayerController _controller;
 	Camera _viewCamera;
 	GunController _gunController;
 
+	public VirtualJoystick _joystick;
+	public bool _isAndroid;
 	public float _moveSpeed = 5;
 	private bool _debug = true;
 }
