@@ -9,6 +9,12 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 	{
 		Debug.Log ("bg image: " + _backgroundImage.name);
 		Debug.Log ("stick image: " + _stickImage.name);
+		FindObjectOfType<Player> ().onDeath += DisableJoystick;
+	}
+
+	private void DisableJoystick ()
+	{
+		gameObject.SetActive (false);
 	}
 
 	public virtual void OnDrag (PointerEventData ped)
