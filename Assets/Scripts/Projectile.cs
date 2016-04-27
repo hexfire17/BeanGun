@@ -46,7 +46,6 @@ public class Projectile : MonoBehaviour {
 			damageableObject.takeHit(_damage, hitPoint, transform.forward);
 		}
 		GameObject.Destroy(gameObject);
-		Debug.Log("Hit: " + c.gameObject.name);
 	}
 
 	public LayerMask _collisionMask;

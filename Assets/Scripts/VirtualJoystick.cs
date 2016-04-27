@@ -7,12 +7,14 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 {
 	void Start ()
 	{
-		_backgroundImage = GetComponent<Image> ();
-		_stickImage = transform.GetChild (0).GetComponent<Image> ();
+		Debug.Log ("bg image: " + _backgroundImage.name);
+		Debug.Log ("stick image: " + _stickImage.name);
 	}
 
 	public virtual void OnDrag (PointerEventData ped)
 	{
+		Debug.Log ("Pointer Drag");
+
 		Vector2 position;
 		if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_backgroundImage.rectTransform, ped.position, ped.pressEventCamera, out position))
 		{
@@ -33,11 +35,13 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
 	public virtual void OnPointerDown (PointerEventData ped)
 	{
+		Debug.Log ("Pointer Down");
 		OnDrag (ped);
 	}
 
 	public virtual void OnPointerUp (PointerEventData ped)
 	{
+		Debug.Log ("Pointer Up");
 		_inputVector = Vector3.zero;
 		_stickImage.rectTransform.anchoredPosition = Vector3.zero;
 	}
@@ -47,8 +51,8 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 		return _inputVector;
 	}
 
-	private Image _backgroundImage;
-	private Image _stickImage;
+	public Image _backgroundImage;
+	public Image _stickImage;
 
 	private Vector3 _inputVector;
 }
