@@ -54,7 +54,18 @@ public class Player : LivingEntitiy
 		// Weapppppppppppon
 		if (Input.GetMouseButton (0))
 		{
-			_gunController.Shoot();
+			if (!_isAndroid) 
+			{
+				_gunController.Shoot ();
+			} 
+			else {
+				bool touchingJoystick = RectTransformUtility.RectangleContainsScreenPoint (
+					_joystick._backgroundImage.rectTransform, Input.mousePosition);
+				if (!touchingJoystick) {
+					_gunController.Shoot ();
+				}
+
+			}
 		}
 	}
 		
