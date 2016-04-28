@@ -52,7 +52,7 @@ public class Player : LivingEntitiy
 		}
 
 		// Weapppppppppppon
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButton (0) && !_isAndroid) {
 			_gunController.Shoot ();
 		}
 	}
