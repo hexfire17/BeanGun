@@ -11,8 +11,8 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
 		_startingPosition = _stickImage.transform.position;
 
-		Vector3 stickRadius = _stickImage.rectTransform.sizeDelta * .5f;
-		_radius = (_backgroundImage.rectTransform.sizeDelta * .5f);
+		float stickRadius = _stickImage.rectTransform.sizeDelta.x * .5f;
+		_radius = _backgroundImage.rectTransform.sizeDelta.x * .5f;
 		_radius -= stickRadius;
 	}
 
@@ -23,20 +23,16 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
 	public virtual void OnDrag (PointerEventData ped)
 	{
-		Vector2 position;
-		if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_backgroundImage.rectTransform, ped.position, ped.pressEventCamera, out position))
+		Vector2 positionChange = _startingPosition - ped.position;
+		Vector2 diffPercentVector = positionChange / _radius;
+
+		_inputVector = diffPercentVector * -1;
+		if (_inputVector.magnitude > 1f)
 		{
-			position.x = (position.x / _backgroundImage.rectTransform.sizeDelta.x);
-			position.y = (position.y / _backgroundImage.rectTransform.sizeDelta.y);
-
-			_inputVector = new Vector3 (position.x * 2 + 1, position.y * 2 - 1, 0);
-			if (_inputVector.magnitude > 1f)
-			{
-				_inputVector = _inputVector.normalized;
-			}
-
-			_stickImage.transform.position = _startingPosition + Vector3.Scale (_inputVector, _radius);
+			_inputVector = _inputVector.normalized;
 		}
+
+		_stickImage.transform.position = _startingPosition + (_inputVector * _radius);
 	}
 
 	public virtual void OnPointerDown (PointerEventData ped)
@@ -58,7 +54,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 	public Image _backgroundImage;
 	public Image _stickImage;
 
-	private Vector3 _startingPosition;
-	private Vector3 _radius;
-	private Vector3 _inputVector;
+	private float _radius;
+	private Vector2 _startingPosition;
+	private Vector2 _inputVector;
 }
