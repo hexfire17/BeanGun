@@ -47,6 +47,7 @@ public class Enemy : LivingEntitiy {
 
 	public override void takeHit (float damage, Vector3 hitPoint, Vector3 hitDirection)
 	{
+		Instantiate (_bloodEffect, hitPoint, Quaternion.FromToRotation (Vector3.forward, hitDirection));
 		if (damage >= _health)
 		{
 			Debug.Log ("Spawning Death Effect");
@@ -117,6 +118,7 @@ public class Enemy : LivingEntitiy {
 	float _damage = 1;
 
 	public ParticleSystem _deathEffect;
+	public ParticleSystem _bloodEffect;
 
 	Material _skinMaterial;
 	
