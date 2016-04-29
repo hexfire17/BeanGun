@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 		if (_isAndroid)
 		{
 			Vector2 shootInput = _shootStick.getInputVector ();
-			Vector3 playerPosition = transform.position;
+			Vector3 playerPosition = transform.position; // maybe dont look if dont need to
 			lookPosition = new Vector3 (playerPosition.x + shootInput.x, playerPosition.y, playerPosition.z + shootInput.y);
 			if (!lookPosition.Equals (playerPosition)) {
 				_gunController.Shoot ();
