@@ -69,7 +69,6 @@ public class MapGenerator : MonoBehaviour {
 				Vector3 position = randomPoint.toVector3(_currentMap._size, _currentMap._tileSize);
 				position.y = obsticleHeight / 2f;
 				Transform obsticle = Instantiate(_obsticlePrefab, position, Quaternion.identity) as Transform;
-				//obsticle.localScale = new Vector3 ((1-decimalOutlinePercent) * _currentMap._tileSize, obsticleHeight, (1-decimalOutlinePercent) * _currentMap._tileSize);
 				Vector3 scale = getTile (randomPoint.toVector3 (_currentMap._size, _currentMap._tileSize)).localScale;
 				scale.y = obsticleHeight;
 				obsticle.localScale = scale;

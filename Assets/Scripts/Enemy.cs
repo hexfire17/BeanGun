@@ -106,7 +106,7 @@ public class Enemy : LivingEntitiy {
 	Transform _target;
 	float _refreshRateSecs = 1;
 	
-	float _attackDistanceThreshold = 1.5f;
+	float _attackDistanceThreshold = 1f;
 	float _timeBetweenAttacksSec = 1;
 	float _nextAttackTime;
 	float _attackSpeed = 3;
