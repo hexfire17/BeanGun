@@ -33,14 +33,22 @@ public class Spawner : MonoBehaviour {
 		if (_enemiesRemainingToSpawn > 0 && Time.time > _nextSpawnTime)
 		{
 			_enemiesRemainingToSpawn--;
-			StartCoroutine (SpawnEnemy ());
+			StartCoroutine ("SpawnEnemy");
+		}
+
+		if (_devMode && Input.GetKeyDown (KeyCode.Return)) {
+			StopCoroutine ("SpawnEnemy");
+			foreach (Enemy enemy in FindObjectsOfType<Enemy> ()) {
+				GameObject.Destroy (enemy.gameObject);
+			}
+			NextWave ();
 		}
 	}
 
 	IEnumerator SpawnEnemy()
 	{
 		Debug.Log ("Spawning enemy, remaining: " + _enemiesRemainingToSpawn);
-		_nextSpawnTime = Time.time + _currentWave._timeBetweenWaves;
+		_nextSpawnTime = Time.time + _currentWave._timeBetweenSpawns;
 
 		float spawnDelay = 1;
 		float tileFlashSpeed = 4;
@@ -63,7 +71,9 @@ public class Spawner : MonoBehaviour {
 		}
 		tileMaterial.color = tileColor;
 
+
 		Enemy spawnedEnemy = Instantiate(_enemy, tile.position + Vector3.up, Quaternion.identity) as Enemy;
+		spawnedEnemy.setCharacteristics (_currentWave._enemySpeed, _currentWave._enemyDamage, _currentWave._enemyAttackDistance, _currentWave._enemyHealth, _currentWave._enemyColor);
 		spawnedEnemy.onDeath += OnEnemyDeath;
 	}
 	
@@ -127,11 +137,18 @@ public class Spawner : MonoBehaviour {
 	Vector3 _previousCampPosition;
 	bool _isCamping;
 	bool _playerDead;
+
+	public bool _devMode;
 	
     [System.Serializable]
 	public class Wave
 	{
-		public float _timeBetweenWaves;
+		public float _timeBetweenSpawns;
 		public int _enemeyCount;	
+		public float _enemySpeed;
+		public int _enemyHealth;
+		public int _enemyDamage;
+		public float _enemyAttackDistance;
+		public Color _enemyColor;
 	}
 }

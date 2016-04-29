@@ -4,27 +4,42 @@ using System.Collections;
 [RequireComponent (typeof (NavMeshAgent))]
 public class Enemy : LivingEntitiy {
 
-	// Use this for initialization
-	public override void Start () {
-		base.Start ();
-		
+	void Awake ()
+	{
 		if (GameObject.FindGameObjectWithTag ("Player") != null)
 		{
 			_pathFinder = GetComponent<NavMeshAgent> ();
 			_target = GameObject.FindGameObjectWithTag ("Player").transform;
 			_targetEntity = _target.GetComponent<LivingEntitiy> ();
-			_targetEntity.onDeath += onTargetDeath;
-			_currentState = State.Chasing;
-		
+
 			_myCollisionRadius = GetComponent<CapsuleCollider>().radius;
 			_targetCollisionRadius = _target.GetComponent<CapsuleCollider>().radius;
-				
+
 			_skinMaterial = GetComponent<Renderer>().material;
+		}
+	}
+
+	// Use this for initialization
+	public override void Start () {
+		base.Start ();
 		
+		if (_target != null)
+		{
+			_targetEntity.onDeath += onTargetDeath;
+			_currentState = State.Chasing;
 			StartCoroutine (UpdatePath ());
 		}
 	}
-	
+
+	public void setCharacteristics (float speed, int damage, float attackDistance, int health, Color color)
+	{
+		_pathFinder.speed = speed;
+		_startingHealth = health;
+		_damage = damage;
+		_attackDistance = attackDistance;
+		GetComponent <Renderer> ().material.color = color;
+	}
+
 	void onTargetDeath()
 	{
 		_currentState = State.Idle;	
@@ -38,7 +53,7 @@ public class Enemy : LivingEntitiy {
 		}
 		
 		float squareDistanceToTarget = (_target.position - transform.position).sqrMagnitude;
-		if (squareDistanceToTarget < Mathf.Pow (_attackDistanceThreshold + _myCollisionRadius + _targetCollisionRadius, 2))
+		if (squareDistanceToTarget < Mathf.Pow (_attackDistance + _myCollisionRadius + _targetCollisionRadius, 2))
 		{
 			_nextAttackTime = Time.time + _timeBetweenAttacksSec;
 			StartCoroutine(Attack());
@@ -97,7 +112,7 @@ public class Enemy : LivingEntitiy {
 		while (_target != null && _isAlive)
 		{
 			Vector3 directionToTarget = (_target.position - transform.position).normalized;
-			Vector3 targetPosition = _target.position - directionToTarget * (_myCollisionRadius + _targetCollisionRadius + _attackDistanceThreshold/2);
+			Vector3 targetPosition = _target.position - directionToTarget * (_myCollisionRadius + _targetCollisionRadius + _attackDistance/2);
 			_pathFinder.SetDestination (targetPosition);
 			yield return new WaitForSeconds(_refreshRateSecs);
 		}
@@ -107,7 +122,7 @@ public class Enemy : LivingEntitiy {
 	Transform _target;
 	float _refreshRateSecs = 1;
 	
-	float _attackDistanceThreshold = 1f;
+	float _attackDistance = 1f;
 	float _timeBetweenAttacksSec = 1;
 	float _nextAttackTime;
 	float _attackSpeed = 3;
