@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour {
 	public void GenerateMap()
 	{
 		_currentMap = _maps [_mapIndex];
-		GetComponent<BoxCollider> ().size = new Vector3 (_currentMap._size._x * _tileSize, .05f, _currentMap._size._y * _tileSize);
+		GetComponent<BoxCollider> ().size = new Vector3 (_currentMap._size._x * _currentMap._tileSize, .05f, _currentMap._size._y * _currentMap._tileSize);
 		System.Random random = new System.Random (_currentMap._seed);
 		_tileMap = new Transform[_currentMap._size._x, _currentMap._size._y];
 
@@ -40,9 +40,9 @@ public class MapGenerator : MonoBehaviour {
 			{
 				Point point = new Point (x, y);
 				_points.Add (point);
-				Vector3 tilePosition = point.toVector3 (_currentMap._size, _tileSize);
+				Vector3 tilePosition = point.toVector3 (_currentMap._size, _currentMap._tileSize);
 				Transform newTile = Instantiate(_tilePrefab, tilePosition, Quaternion.Euler(Vector3.right*90)) as Transform;
-				newTile.localScale = Vector3.one * (1- decimalOutlinePercent) * _tileSize;
+				newTile.localScale = Vector3.one * (1- decimalOutlinePercent) * _currentMap._tileSize;
 				newTile.parent = mapHolder;
 				_tileMap [x, y] = newTile;
 			}
@@ -65,9 +65,14 @@ public class MapGenerator : MonoBehaviour {
 				openCoords.Remove (randomPoint);
 
 				float obsticleHeight = Mathf.Lerp (_currentMap._minObsticleHeight, _currentMap._maxObsticleHeight, (float)random.NextDouble ());
-				Vector3 position = randomPoint.toVector3(_currentMap._size, _tileSize);
-				Transform obsticle = Instantiate(_obsticlePrefab, (position + (Vector3.up * (obsticleHeight/2f) * _tileSize * (1-decimalOutlinePercent))), Quaternion.identity) as Transform;
-				obsticle.localScale = new Vector3 ((1-decimalOutlinePercent) * _tileSize, obsticleHeight, (1-decimalOutlinePercent) * _tileSize);
+				Debug.Log ("H: " + obsticleHeight);
+				Vector3 position = randomPoint.toVector3(_currentMap._size, _currentMap._tileSize);
+				position.y = obsticleHeight / 2f;
+				Transform obsticle = Instantiate(_obsticlePrefab, position, Quaternion.identity) as Transform;
+				//obsticle.localScale = new Vector3 ((1-decimalOutlinePercent) * _currentMap._tileSize, obsticleHeight, (1-decimalOutlinePercent) * _currentMap._tileSize);
+				Vector3 scale = getTile (randomPoint.toVector3 (_currentMap._size, _currentMap._tileSize)).localScale;
+				scale.y = obsticleHeight;
+				obsticle.localScale = scale;
 				obsticle.parent = mapHolder;
 					
 				Renderer renderer = obsticle.GetComponent<Renderer> ();
@@ -84,24 +89,24 @@ public class MapGenerator : MonoBehaviour {
 		}
 		_openShuffledPoints = new Queue<Point> (Utility.FisherShuffle(openCoords.ToArray (), _currentMap._seed));
 		
-		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4f * _tileSize, Quaternion.identity) as Transform;
-		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _tileSize;
+		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
+		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _currentMap._tileSize;
 		
-		Transform maskRight = Instantiate(_navMeshMaskPrefab, Vector3.right * (_currentMap._size._x + _maxMapSize.x) / 4f * _tileSize, Quaternion.identity) as Transform;
-		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _tileSize;
+		Transform maskRight = Instantiate(_navMeshMaskPrefab, Vector3.right * (_currentMap._size._x + _maxMapSize.x) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
+		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _currentMap._tileSize;
 		
-		Transform maskTop = Instantiate(_navMeshMaskPrefab, Vector3.forward * (_currentMap._size._y + _maxMapSize.y) / 4f * _tileSize, Quaternion.identity) as Transform;
-		maskTop.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _tileSize;
+		Transform maskTop = Instantiate(_navMeshMaskPrefab, Vector3.forward * (_currentMap._size._y + _maxMapSize.y) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
+		maskTop.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
 
-		Transform maskBottom = Instantiate(_navMeshMaskPrefab, Vector3.back * (_currentMap._size._y + _maxMapSize.y) / 4f * _tileSize, Quaternion.identity) as Transform;
-		maskBottom.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _tileSize;
+		Transform maskBottom = Instantiate(_navMeshMaskPrefab, Vector3.back * (_currentMap._size._y + _maxMapSize.y) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
+		maskBottom.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
 
 		maskLeft.parent = mapHolder;
 		maskRight.parent = mapHolder;
 		maskBottom.parent = mapHolder;
 		maskTop.parent = mapHolder;
 
-		_navmeshFloor.localScale = new Vector3(_maxMapSize.x, _maxMapSize.y) * _tileSize;
+		_navmeshFloor.localScale = new Vector3(_maxMapSize.x, _maxMapSize.y) * _currentMap._tileSize;
 	}
 	
 	bool MapIsFullyAccessible(bool [,] obsticleMap, int numObsticles)
@@ -171,8 +176,8 @@ public class MapGenerator : MonoBehaviour {
 
 	public Transform getTile(Vector3 position)
 	{
-		int x = Mathf.RoundToInt (position.x / _tileSize + (_currentMap._size._x - 1) / 2f);
-		int y = Mathf.RoundToInt (position.z / _tileSize + (_currentMap._size._y - 1) / 2f);
+		int x = Mathf.RoundToInt (position.x / _currentMap._tileSize + (_currentMap._size._x - 1) / 2f);
+		int y = Mathf.RoundToInt (position.z / _currentMap._tileSize + (_currentMap._size._y - 1) / 2f);
 		x = Mathf.Clamp (x, 0, _tileMap.GetLength (0) - 1);
 		y = Mathf.Clamp (y, 0, _tileMap.GetLength (1) - 1);
 		return _tileMap [x, y];
@@ -218,6 +223,7 @@ public class MapGenerator : MonoBehaviour {
 		public float _maxObsticleHeight;
 		public Color _foreGroundColor;
 		public Color _backGroundColor;
+		public float _tileSize;
 
 		public Point _mapCenter
 		{
@@ -234,8 +240,7 @@ public class MapGenerator : MonoBehaviour {
 	
 	[Range(0,100)]
 	public int _outlinePercent;
-	public float _tileSize;
-	
+
 	List<Point> _points;
 	Queue<Point> _shuffledPoints;
 	Queue<Point> _openShuffledPoints;
