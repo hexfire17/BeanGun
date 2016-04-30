@@ -16,7 +16,6 @@ public class Player : LivingEntitiy
 		_gunController = GetComponent<GunController> ();
 		_joystick.gameObject.SetActive (_isAndroid);
 		_myRigidBody = GetComponent<Rigidbody> ();
-		_startHeight = transform.position.y;
 		_grounded = true;
 	}
 	
@@ -66,38 +65,19 @@ public class Player : LivingEntitiy
 		}
 	}
 
-	void OnCollisionEnter(Collision collision)
+	public bool IsGrounded ()
 	{
-		bool bottomCollision = collision.contacts [0].normal.y > 0;
-		string name = collision.gameObject.name;
-		Debug.Log ("bottom collidde: " + bottomCollision);
-		Debug.Log (name + " normal: " + "X: " + collision.contacts [0].normal.x + " " + "Y: " + collision.contacts [0].normal.y + " " + "Z: " + collision.contacts [0].normal.z + " ");
-		if (name.Equals ("Map") || (bottomCollision && name.StartsWith ("Obsticle")))
-		{
-			Debug.Log ("Ontop of " + name);
-			_grounded = true;
-			_myRigidBody.velocity = Vector3.zero; // stop it from drifting after collision TODO do I need this anymore
-		}
-	}
+		Ray bottom = new Ray (this.transform.position, Vector3.down);
+		RaycastHit hit = new RaycastHit();
+		bool hitground = Physics.Raycast (bottom, out hit, 1.5f);
 
-	void OnCollisionExit(Collision collision)
-	{
-		string name = collision.gameObject.name;
-		if (name.Equals ("Map") || name.StartsWith ("Obsticle")) {
-			if (transform.position.y > collision.gameObject.transform.position.y)
-			{
-				Debug.Log ("Went up from: " + name);
-				_grounded = false;
-			}
-		}
-	//	Debug.Log ("E: " + collision.gameObject.name);
+		return hitground;
 	}
 		
 	PlayerController _controller;
 	Camera _viewCamera;
 	GunController _gunController;
 	Rigidbody _myRigidBody;
-	float _startHeight;
 	public bool _grounded;
 
 	public VirtualJoystick _joystick;

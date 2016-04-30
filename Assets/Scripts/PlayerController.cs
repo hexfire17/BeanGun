@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour {
 	public void Update ()
 	{
 		// jump
-		if (Input.GetKeyDown (KeyCode.Space) && _player._grounded) {
+		if (Input.GetKeyDown (KeyCode.Space) && _player.IsGrounded ()) {
 			Debug.Log ("Jump " + Time.time + ": " + _myRigidBody.velocity);
 			_myRigidBody.AddForce (new Vector3(0,7,0), ForceMode.Impulse);
 		}
