@@ -8,14 +8,14 @@ public class Spawner : MonoBehaviour {
 		Debug.Log ("Spawner started");
 
 		_playerDead = false;
-		_playerEntity = FindObjectOfType<Player> ();
-		_playerTransform = _playerEntity.transform;
+		_player = FindObjectOfType<Player> ();
+		_playerTransform = _player.transform;
 
 		_nextCampCheckTime = _campCheckInterval + Time.time;
 		_previousCampPosition = _playerTransform.position;
 
 		_map = FindObjectOfType<MapGenerator> ();
-		_playerEntity.onDeath += OnPlayerDeath;
+		_player.onDeath += OnPlayerDeath;
 		NextWave();	
 	}
 	
@@ -95,7 +95,8 @@ public class Spawner : MonoBehaviour {
 
 	void ResetPlayerPosition ()
 	{
-		_playerEntity.transform.position = _map.getTile (Vector3.zero).position + Vector3.up;
+		_player.transform.position = _map.getTile (Vector3.zero).position + Vector3.up;
+		_player._grounded = true;
 	}
 	
 	void OnEnemyDeath()
@@ -128,7 +129,7 @@ public class Spawner : MonoBehaviour {
 
 	MapGenerator _map;
 
-	LivingEntitiy _playerEntity;
+	Player _player;
 	Transform _playerTransform;
 
 	float _campCheckInterval = 2;

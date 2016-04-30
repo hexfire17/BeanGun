@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\GunController.cs" />
      <Compile Include="Assets\Scripts\IDamageable.cs" />
      <Compile Include="Assets\Scripts\LivingEntitiy.cs" />
+     <Compile Include="Assets\Scripts\Logger.cs" />
      <Compile Include="Assets\Scripts\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\MuzzleFlash.cs" />
      <Compile Include="Assets\Scripts\Particle.cs" />

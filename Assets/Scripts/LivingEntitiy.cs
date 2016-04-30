@@ -16,7 +16,6 @@ public class LivingEntitiy : MonoBehaviour, IDamageable {
 	public virtual void takeDamage(float damage)
 	{
 		_health -= damage;
-		Debug.Log (this.name + " health: " + _health);
 		if (_health <= 0 && _isAlive)
 		{
 			Die();	

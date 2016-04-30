@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 		_myRigidBody = GetComponent<Rigidbody> ();
 		_startHeight = transform.position.y;
 		_gunController = GetComponent<GunController> ();
+		_player = GetComponent<Player> ();
 	}
 
 	public void Move (Vector3 velocity)
@@ -19,9 +20,17 @@ public class PlayerController : MonoBehaviour {
 
 	public void FixedUpdate ()
 	{
-		_myRigidBody.velocity = Vector3.zero; // stop it from drifting after collision
-		transform.position = new Vector3(transform.position.x, _startHeight, transform.position.z); // stop from floating over shit
-		_myRigidBody.MovePosition (_myRigidBody.position + _velocity * Time.fixedDeltaTime);
+		Vector3 move = (_myRigidBody.position + _velocity * Time.fixedDeltaTime);
+		_myRigidBody.MovePosition (move);
+	}
+
+	public void Update ()
+	{
+		// jump
+		if (Input.GetKeyDown (KeyCode.Space) && _player._grounded) {
+			Debug.Log ("Jump " + Time.time + ": " + _myRigidBody.velocity);
+			_myRigidBody.AddForce (new Vector3(0,7,0), ForceMode.Impulse);
+		}
 	}
 
 	public void LookAt(Vector3 point)
@@ -46,4 +55,5 @@ public class PlayerController : MonoBehaviour {
 	Vector3 _velocity;
 	float _startHeight;
 	public GunController _gunController;
+	Player _player;
 }

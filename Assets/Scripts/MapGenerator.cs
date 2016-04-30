@@ -6,25 +6,27 @@ public class MapGenerator : MonoBehaviour {
 	
 	public void Awake()
 	{
-		Debug.Log ("Map Generator Started");
+		_log = GetComponent<Logger> ();
+		_log.Debug ("Map Generator Started");
 		_mapIndex = 0;
 		FindObjectOfType<Spawner> ().OnNewWave += OnNewWave;
 	}
 	
 	public void GenerateMap()
 	{
+		_log = GetComponent<Logger> ();
 		_currentMap = _maps [_mapIndex];
 		GetComponent<BoxCollider> ().size = new Vector3 (_currentMap._size._x * _currentMap._tileSize, .05f, _currentMap._size._y * _currentMap._tileSize);
 		System.Random random = new System.Random (_currentMap._seed);
 		_tileMap = new Transform[_currentMap._size._x, _currentMap._size._y];
 
-		Debug.Log("Generating map with seed: " + _currentMap._seed);
+		_log.Debug("Generating map with seed: " + _currentMap._seed);
 		string holderName = "Generated_Map";
 		Point playerSpawn = new Point((int)_currentMap._size._x/2, (int)_currentMap._size._y/2);
 		
 		if (transform.FindChild (holderName))
 		{
-			Debug.Log("MapFound: " + transform.FindChild (holderName).gameObject.name);
+			_log.Debug("MapFound: " + transform.FindChild (holderName).gameObject.name);
 			DestroyImmediate(transform.FindChild(holderName).gameObject);	
 		}
 		
@@ -65,7 +67,7 @@ public class MapGenerator : MonoBehaviour {
 				openCoords.Remove (randomPoint);
 
 				float obsticleHeight = Mathf.Lerp (_currentMap._minObsticleHeight, _currentMap._maxObsticleHeight, (float)random.NextDouble ());
-				Debug.Log ("H: " + obsticleHeight);
+				_log.Debug ("H: " + obsticleHeight);
 				Vector3 position = randomPoint.toVector3(_currentMap._size, _currentMap._tileSize);
 				position.y = obsticleHeight / 2f;
 				Transform obsticle = Instantiate(_obsticlePrefab, position, Quaternion.identity) as Transform;
@@ -183,7 +185,7 @@ public class MapGenerator : MonoBehaviour {
 	}
 	void OnNewWave(int waveNumber)
 	{
-		Debug.Log ("Generating map " + waveNumber);
+		_log.Debug ("Generating map " + waveNumber);
 		_mapIndex = waveNumber;
 		GenerateMap ();
 	}
@@ -250,4 +252,6 @@ public class MapGenerator : MonoBehaviour {
 	public Transform _navMeshMaskPrefab;
 
 	private Transform [,] _tileMap;
+
+	private Logger _log;
 }
