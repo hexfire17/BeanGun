@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 		_startHeight = transform.position.y;
 		_gunController = GetComponent<GunController> ();
 		_player = GetComponent<Player> ();
+		_shootStick.gameObject.SetActive (_isAndroid);
 	}
 
 	public void Move (Vector3 velocity)

@@ -27,7 +27,6 @@ public class Player : LivingEntitiy
 		Vector3 correctedVelocity = new Vector3(0, currVelocity.y, 0);
 		_myRigidBody.velocity = correctedVelocity;
 
-
 		// Movement
 		float horizMove = 0;
 		float virtMove = 0;
