@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 [RequireComponent (typeof (Rigidbody))]
 public class PlayerController : MonoBehaviour {
@@ -12,6 +13,9 @@ public class PlayerController : MonoBehaviour {
 		_gunController = GetComponent<GunController> ();
 		_player = GetComponent<Player> ();
 		_shootStick.gameObject.SetActive (_isAndroid);
+		_jumpButton.gameObject.SetActive (_isAndroid);
+		_jumpButton.onClick.AddListener (JumpPressed);
+		_jumpPressed = false;
 	}
 
 	public void Move (Vector3 velocity)
@@ -28,10 +32,13 @@ public class PlayerController : MonoBehaviour {
 	public void Update ()
 	{
 		// jump
-		if (Input.GetKeyDown (KeyCode.Space) && _player.IsGrounded ()) {
+		bool isInvoking = (_isAndroid && _jumpPressed) || Input.GetKeyDown (KeyCode.Space);
+		if (isInvoking && _player.IsGrounded ())
+		{
 			Debug.Log ("Jump " + Time.time + ": " + _myRigidBody.velocity);
 			_myRigidBody.AddForce (new Vector3(0,7,0), ForceMode.Impulse);
 		}
+		_jumpPressed = false;
 	}
 
 	public void LookAt(Vector3 point)
@@ -50,6 +57,11 @@ public class PlayerController : MonoBehaviour {
 		transform.LookAt (lookPosition);
 	}
 
+	private void JumpPressed ()
+	{
+		_jumpPressed = true;
+	}
+
 	public bool _isAndroid;
 	public VirtualJoystick _shootStick;
 	Rigidbody _myRigidBody;
@@ -57,4 +69,6 @@ public class PlayerController : MonoBehaviour {
 	float _startHeight;
 	public GunController _gunController;
 	Player _player;
+	public Button _jumpButton;
+	private bool _jumpPressed;
 }
