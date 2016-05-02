@@ -54,7 +54,7 @@ public class Player : LivingEntitiy
 		if (groundPlane.Raycast (ray, out rayDistance))
 		{
 			Vector3 point = ray.GetPoint(rayDistance);
-			if (_debug) Debug.DrawLine(ray.origin, point, Color.red);
+			Debug.DrawLine(ray.origin, point, Color.red);
 			_controller.LookAt(point);
 		}
 

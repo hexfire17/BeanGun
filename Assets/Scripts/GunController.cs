@@ -33,5 +33,5 @@ public class GunController : MonoBehaviour
 
 	public Transform _weaponHold;
 	public Gun _startingGun;
-	private Gun _equippedGun;
+	public Gun _equippedGun;
 }

@@ -91,16 +91,16 @@ public class MapGenerator : MonoBehaviour {
 		_openShuffledPoints = new Queue<Point> (Utility.FisherShuffle(openCoords.ToArray (), _currentMap._seed));
 		
 		Transform maskLeft = Instantiate(_navMeshMaskPrefab, Vector3.left * (_currentMap._size._x + _maxMapSize.x) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
-		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _currentMap._tileSize;
+		maskLeft.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 100f, _currentMap._size._y) * _currentMap._tileSize;
 		
 		Transform maskRight = Instantiate(_navMeshMaskPrefab, Vector3.right * (_currentMap._size._x + _maxMapSize.x) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
-		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 1, _currentMap._size._y) * _currentMap._tileSize;
+		maskRight.localScale = new Vector3((_maxMapSize.x - _currentMap._size._x) / 2f, 100f, _currentMap._size._y) * _currentMap._tileSize;
 		
 		Transform maskTop = Instantiate(_navMeshMaskPrefab, Vector3.forward * (_currentMap._size._y + _maxMapSize.y) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
-		maskTop.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
+		maskTop.localScale = new Vector3(_maxMapSize.x, 100f, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
 
 		Transform maskBottom = Instantiate(_navMeshMaskPrefab, Vector3.back * (_currentMap._size._y + _maxMapSize.y) / 4f * _currentMap._tileSize, Quaternion.identity) as Transform;
-		maskBottom.localScale = new Vector3(_maxMapSize.x, 1, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
+		maskBottom.localScale = new Vector3(_maxMapSize.x, 100f, (_maxMapSize.y - _currentMap._size._y) / 2f) * _currentMap._tileSize;
 
 		maskLeft.parent = mapHolder;
 		maskRight.parent = mapHolder;

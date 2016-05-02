@@ -34,6 +34,11 @@ public class LivingEntitiy : MonoBehaviour, IDamageable {
 			onDeath();	
 		}
 	}
+
+	public bool isAlive ()
+	{
+		return _isAlive;
+	}
 	
 	public event System.Action onDeath;
 	

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 		_jumpButton.gameObject.SetActive (_isAndroid);
 		_jumpButton.onClick.AddListener (JumpPressed);
 		_jumpPressed = false;
+		_myRigidBody.transform.forward = _gunController._equippedGun._projectileSpawns [0].transform.forward;
 	}
 
 	public void Move (Vector3 velocity)
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 		if (isInvoking && _player.IsGrounded ())
 		{
 			Debug.Log ("Jump " + Time.time + ": " + _myRigidBody.velocity);
-			_myRigidBody.AddForce (new Vector3(0,7,0), ForceMode.Impulse);
+			_myRigidBody.AddForce (new Vector3(0,_jumpHeight,0), ForceMode.Impulse);
 		}
 		_jumpPressed = false;
 	}
@@ -54,6 +55,34 @@ public class PlayerController : MonoBehaviour {
 				_gunController.Shoot ();
 			}
 		}
+
+		// air time
+		if (!_player.IsGrounded ()) {
+			if (_lockObject != null && !_lockObject.position.Equals(Vector3.zero)) {
+				Debug.Log ("Locked On: " + _lockObject.position);
+				lookPosition = _lockObject.position;
+				Debug.DrawLine (_myRigidBody.transform.position, _lockObject.position, Color.blue);
+			} else {
+				_lockObject = null;
+				Transform muzzleTransform = _gunController._equippedGun._projectileSpawns [0].transform;
+				Vector3 muzzlePosition = muzzleTransform.position;
+				Vector3 muzzleDirection = muzzleTransform.forward;
+				Vector3 groundedMuzzlePosition = new Vector3 (muzzlePosition.x, 1.1f, muzzlePosition.z);
+				Ray ray = new Ray (groundedMuzzlePosition, muzzleDirection);
+				RaycastHit hit = new RaycastHit ();
+				bool isHit = Physics.Raycast (ray, out hit, 100f, LayerMask.GetMask ("Enemy"));
+				if (isHit) {
+					Debug.Log ("P: " + muzzlePosition);
+					Debug.Log ("HIT!");
+					_lockObject = hit.transform;
+					Debug.DrawLine (ray.origin, hit.point, Color.red);
+					lookPosition = _lockObject.position;
+				}
+			}
+		} else {
+			_lockObject = null;
+		}
+
 		transform.LookAt (lookPosition);
 	}
 
@@ -71,4 +100,6 @@ public class PlayerController : MonoBehaviour {
 	Player _player;
 	public Button _jumpButton;
 	private bool _jumpPressed;
+	public int _jumpHeight;
+	private Transform _lockObject;
 }
