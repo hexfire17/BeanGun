@@ -37,7 +37,7 @@ public class Enemy : LivingEntitiy {
 		_startingHealth = health;
 		_damage = damage;
 		_attackDistance = attackDistance;
-		GetComponent <Renderer> ().material.color = color;
+		GetComponent <Renderer> ().material.color = color; // TODO checkout shared material sharing colors and stuff
 	}
 
 	void onTargetDeath()

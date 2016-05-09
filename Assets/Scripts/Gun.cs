@@ -48,8 +48,8 @@ public class Gun : MonoBehaviour
 			_muzzleFlash.Activate ();
 			Instantiate (_shell, _shellEjectionPoint.position, _shellEjectionPoint.rotation);
 			transform.localPosition -= Vector3.forward * .2f;
-		 	_recoilAngle += 5;
-			_recoilAngle = Mathf.Clamp (_recoilAngle, 0, 30);
+			_recoilAngle += _recoilIncrement;
+			_recoilAngle = Mathf.Clamp (_recoilAngle, 0, _maxRecoilAngle);
 		}
     }
 
@@ -70,10 +70,16 @@ public class Gun : MonoBehaviour
 
 	float _recoilAngle;
 
+	[Header("TestHeader")]
 	public Transform[] _projectileSpawns;
 	public Projectile _projectile;
 	public float _millisBetweenShots = 100;
 	public float _projectileVelocity = 35;
+	[Header("TestHeader2")]
 	public Transform _shell;
 	public Transform _shellEjectionPoint;
+
+	public float _maxRecoilAngle = 15;
+	public float _recoilIncrement = 5;
+	public float _maxRecoilRandomDeviation = 0; // TODO use this!
 }
