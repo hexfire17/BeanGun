@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour {
 	{
 		StopCoroutine ("AnnimateWaveBanner");
 		_waveNumber.text = "Wave " + (waveNumber + 1);
-		_waveEnemyCount.text = "Enemies:" + _spawner._waves [waveNumber];
+		_waveEnemyCount.text = "Enemies:" + _spawner._waves [waveNumber]._enemeyCount;
 		StartCoroutine ("AnnimateWaveBanner");
 	}
 
