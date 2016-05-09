@@ -66,7 +66,6 @@ public class Enemy : LivingEntitiy {
 		if (damage >= _health)
 		{
 			Debug.Log ("Spawning Death Effect");
-			// TODO why are these not being destroyed...?
 			_deathEffect.GetComponent<Renderer> ().material = _skinMaterial;
 			Instantiate (_deathEffect, hitPoint, Quaternion.FromToRotation (Vector3.forward, hitDirection));
 		}

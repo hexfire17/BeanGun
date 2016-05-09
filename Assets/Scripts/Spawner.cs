@@ -60,16 +60,15 @@ public class Spawner : MonoBehaviour {
 		}
 
 		Material tileMaterial = tile.GetComponent<Renderer> ().material;
-		Color tileColor = tileMaterial.color;
 		Color flashColor = Color.red;
 		float spawnTimer = 0;
 		while (spawnTimer < spawnDelay)
 		{
-			tileMaterial.color = Color.Lerp (tileColor, flashColor, Mathf.PingPong (spawnTimer * tileFlashSpeed, 1));
+			tileMaterial.color = Color.Lerp (_tileColor, flashColor, Mathf.PingPong (spawnTimer * tileFlashSpeed, 1));
 			spawnTimer += Time.deltaTime;
 			yield return null; // TODO figure out why
 		}
-		tileMaterial.color = tileColor;
+		tileMaterial.color = _tileColor;
 
 
 		Enemy spawnedEnemy = Instantiate(_enemy, tile.position + Vector3.up, Quaternion.identity) as Enemy;
@@ -90,12 +89,14 @@ public class Spawner : MonoBehaviour {
 			_enemiesRemainingToSpawn = _currentWave._enemeyCount;
 			_enemiesRemaining = _currentWave._enemeyCount;
 		}
-		ResetPlayerPosition (); 
+		Reset (); 
 	}
 
-	void ResetPlayerPosition ()
+	void Reset ()
 	{
-		_player.transform.position = _map.getTile (Vector3.zero).position + Vector3.up;
+		Transform startTile = _map.getTile (Vector3.zero);
+		_tileColor = startTile.GetComponent<Renderer> ().material.color;
+		_player.transform.position = startTile.position + Vector3.up;
 		_player._grounded = true;
 	}
 	
@@ -138,6 +139,7 @@ public class Spawner : MonoBehaviour {
 	Vector3 _previousCampPosition;
 	bool _isCamping;
 	bool _playerDead;
+	Color _tileColor;
 
 	public bool _devMode;
 	

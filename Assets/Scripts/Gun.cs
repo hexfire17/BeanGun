@@ -9,6 +9,21 @@ public class Gun : MonoBehaviour
 		_currBurst = 0;
 	}
 
+	// TODO LateUpdate does it later
+
+	public void Update ()
+	{
+		// animate recoil
+		float timeToReturn = .1f;
+		transform.localPosition = Vector3.SmoothDamp (transform.localPosition, Vector3.zero, ref _recoilSmoothDampVelocity, timeToReturn);
+
+		// reduce recoil over time
+		float recoilReturn = .1f;
+		_recoilAngle = Mathf.SmoothDamp (_recoilAngle, 0f, ref _recoilAngleSmoothDampVelocity, recoilReturn);
+	//	transform.localEulerAngles = transform.localEulerAngles + Vector3.right * _recoilAngle;
+		Debug.Log (_recoilAngle);
+	}
+
 	public void Shoot()
 	{
 		if (Time.time > _nextShotTime)
@@ -32,6 +47,9 @@ public class Gun : MonoBehaviour
 			// only do this for one muzzle TODO check if this is crazy to have a lot
 			_muzzleFlash.Activate ();
 			Instantiate (_shell, _shellEjectionPoint.position, _shellEjectionPoint.rotation);
+			transform.localPosition -= Vector3.forward * .2f;
+		 	_recoilAngle += 5;
+			_recoilAngle = Mathf.Clamp (_recoilAngle, 0, 30);
 		}
     }
 
@@ -44,6 +62,13 @@ public class Gun : MonoBehaviour
 
 	float _nextShotTime;
 	MuzzleFlash _muzzleFlash;
+
+	// recoil
+	Vector3 _recoilSmoothDampVelocity;
+	float _recoilAngleSmoothDampVelocity;
+
+
+	float _recoilAngle;
 
 	public Transform[] _projectileSpawns;
 	public Projectile _projectile;
