@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GunController : MonoBehaviour
 {
-	void Start()
+	void Awake()
 	{
 		if (_startingGun != null)
 		{

@@ -21,7 +21,6 @@ public class Gun : MonoBehaviour
 		float recoilReturn = .1f;
 		_recoilAngle = Mathf.SmoothDamp (_recoilAngle, 0f, ref _recoilAngleSmoothDampVelocity, recoilReturn);
 		transform.localEulerAngles = Vector3.left * _recoilAngle;
-		Debug.Log (_recoilAngle);
 	}
 
 	public void Shoot()
