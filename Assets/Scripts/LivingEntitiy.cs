@@ -3,18 +3,27 @@ using System.Collections;
 
 public class LivingEntitiy : MonoBehaviour, IDamageable {
 	
-	public virtual void Start()
+	protected virtual void Awake()
 	{
-		_health = _startingHealth;	
+		_health = _startingHealth;
 	}
 	
 	public virtual void takeHit(float damage, Vector3 hitPoint, Vector3 hitDirection)
 	{
 		takeDamage(damage);
 	}
+
+	public void setHealth(float health)
+	{
+		_health = health;
+	}
 	
 	public virtual void takeDamage(float damage)
 	{
+		if (OnHit != null) {
+			OnHit (damage);
+		}
+
 		_health -= damage;
 		if (_health <= 0 && _isAlive)
 		{
@@ -39,11 +48,12 @@ public class LivingEntitiy : MonoBehaviour, IDamageable {
 	{
 		return _isAlive;
 	}
-	
+
+	public event System.Action<float> OnHit;
 	public event System.Action onDeath;
 	
 	public float _startingHealth;
 	
 	protected bool _isAlive = true;
-	protected float _health;
+	public float _health;
 }

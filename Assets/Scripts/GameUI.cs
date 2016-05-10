@@ -9,12 +9,17 @@ public class GameUI : MonoBehaviour {
 	void Awake ()
 	{
 		_spawner = FindObjectOfType<Spawner> ();
+		_player = FindObjectOfType<Player> ();
 		_spawner.OnNewWave += OnNewWave;
+		_player.OnHit += OnPlayerHit;
+		_healthBarStartLength = _healthBar.sizeDelta.x;
 	}
 
 	// Use this for initialization
 	void Start () {
 		FindObjectOfType<Player> ().onDeath += GameOver;
+		_playerMaxHealth = _player._health;
+
 	}
 
 	public void StartNewGame ()
@@ -82,12 +87,28 @@ public class GameUI : MonoBehaviour {
 		_gameOverUI.SetActive (true);
 	}
 
+	void OnPlayerHit(float damage)
+	{
+		float percentLost = damage / _playerMaxHealth;
+		float sizeMinus = _healthBarStartLength * percentLost;
+		Debug.Log ("DAM: " + damage);
+		Debug.Log ("MAX_H: " + _playerMaxHealth);
+		Debug.Log ("SIZE_MIN: " + sizeMinus);
+
+		_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
+	}
+
 	public Image _fadePlane;
 	public GameObject _gameOverUI;
 	public RectTransform _newWaveBanner;
 	public Text _waveNumber;
 	public Text _waveEnemyCount;
 	public Text _wavePlayerMessage;
+	Player _player;
+	public RectTransform _healthBar;
+	float _healthBarStartLength;
+	float _playerMaxHealth;
+
 
 	Spawner _spawner;
 }

@@ -4,8 +4,9 @@ using System.Collections;
 [RequireComponent (typeof (NavMeshAgent))]
 public class Enemy : LivingEntitiy {
 
-	void Awake ()
+	protected override void Awake ()
 	{
+		base.Awake ();
 		if (GameObject.FindGameObjectWithTag ("Player") != null)
 		{
 			_pathFinder = GetComponent<NavMeshAgent> ();
@@ -20,9 +21,7 @@ public class Enemy : LivingEntitiy {
 	}
 
 	// Use this for initialization
-	public override void Start () {
-		base.Start ();
-		
+	public void Start () {
 		if (_target != null)
 		{
 			_targetEntity.onDeath += onTargetDeath;
@@ -34,7 +33,7 @@ public class Enemy : LivingEntitiy {
 	public void setCharacteristics (float speed, int damage, float attackDistance, int health, Color color)
 	{
 		_pathFinder.speed = speed;
-		_startingHealth = health;
+		setHealth (health);
 		_damage = damage;
 		_attackDistance = attackDistance;
 		GetComponent <Renderer> ().material.color = color; // TODO checkout shared material sharing colors and stuff

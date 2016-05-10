@@ -7,10 +7,9 @@ public class Player : LivingEntitiy
 {
 
 	// Use this for initialization
-	public override void Start ()
+	public void Start ()
 	{
 		Debug.Log("Count" + Input.touchCount);
-		base.Start ();
 		_controller = GetComponent<PlayerController> ();
 		_viewCamera = Camera.main;
 		_gunController = GetComponent<GunController> ();

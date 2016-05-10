@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 	void Start ()
 	{
 		_myRigidBody = GetComponent<Rigidbody> ();
-		_startHeight = transform.position.y;
 		_gunController = GetComponent<GunController> ();
 		_player = GetComponent<Player> ();
 		_shootStick.gameObject.SetActive (_isAndroid);
@@ -95,7 +94,6 @@ public class PlayerController : MonoBehaviour {
 	public VirtualJoystick _shootStick;
 	Rigidbody _myRigidBody;
 	Vector3 _velocity;
-	float _startHeight;
 	public GunController _gunController;
 	Player _player;
 	public Button _jumpButton;
