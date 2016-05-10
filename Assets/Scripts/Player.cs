@@ -81,5 +81,4 @@ public class Player : LivingEntitiy
 	public VirtualJoystick _joystick;
 	public bool _isAndroid;
 	public float _moveSpeed = 5;
-	private bool _debug = true;
 }

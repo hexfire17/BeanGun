@@ -153,5 +153,6 @@ public class Spawner : MonoBehaviour {
 		public int _enemyDamage;
 		public float _enemyAttackDistance;
 		public Color _enemyColor;
+		public string _playerMessage;
 	}
 }

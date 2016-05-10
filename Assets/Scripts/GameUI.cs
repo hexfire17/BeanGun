@@ -33,6 +33,7 @@ public class GameUI : MonoBehaviour {
 		StopCoroutine ("AnnimateWaveBanner");
 		_waveNumber.text = "Wave " + (waveNumber + 1);
 		_waveEnemyCount.text = "Enemies:" + _spawner._waves [waveNumber]._enemeyCount;
+		_wavePlayerMessage.text = _spawner._waves [waveNumber]._playerMessage;
 		StartCoroutine ("AnnimateWaveBanner");
 	}
 
@@ -63,10 +64,9 @@ public class GameUI : MonoBehaviour {
 				annimationComplete = true;
 			}
 
-			_newWaveBanner.anchoredPosition = Vector2.up * Mathf.Lerp (240, 0, annimationRange);
+			_newWaveBanner.anchoredPosition = Vector2.up * Mathf.Lerp (-150, -400, annimationRange);
 			yield return null;
 		}
-
 	}
 
 	void GameOver ()
@@ -96,6 +96,12 @@ public class GameUI : MonoBehaviour {
 		_healthBar.anchoredPosition -= new Vector2 (sizeMinus, 0) * .5f;
 	}
 
+	public void SetDebugText (string text)
+	{
+		_debugText.text = text;
+	}
+
+	public Text _debugText;
 	public Image _fadePlane;
 	public GameObject _gameOverUI;
 	public RectTransform _newWaveBanner;
@@ -106,7 +112,6 @@ public class GameUI : MonoBehaviour {
 	public RectTransform _healthBar;
 	float _healthBarStartLength;
 	float _playerMaxHealth;
-
 
 	Spawner _spawner;
 }

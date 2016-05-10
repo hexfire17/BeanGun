@@ -12,9 +12,9 @@ public class PlayerController : MonoBehaviour {
 		_gunController = GetComponent<GunController> ();
 		_player = GetComponent<Player> ();
 		_shootStick.gameObject.SetActive (_isAndroid);
-		_jumpButton.gameObject.SetActive (_isAndroid);
-		_jumpButton.onClick.AddListener (JumpPressed);
-		_jumpPressed = false;
+		_isPhoneShaking = false;
+		_accel = Input.acceleration.y;
+		_nextJumpTime = 0;
 		_myRigidBody.transform.forward = _gunController._equippedGun._projectileSpawns [0].transform.forward;
 	}
 
@@ -31,14 +31,24 @@ public class PlayerController : MonoBehaviour {
 
 	public void Update ()
 	{
+		CheckAccel ();
 		// jump
-		bool isInvoking = (_isAndroid && _jumpPressed) || Input.GetKeyDown (KeyCode.Space);
-		if (isInvoking && _player.IsGrounded ())
+		bool isInvoking = (_isAndroid && _isPhoneShaking) || Input.GetKeyDown (KeyCode.Space);
+		if (isInvoking && _player.IsGrounded () && Time.time > _nextJumpTime)
 		{
+			_myRigidBody.velocity.Scale (new Vector3 (1, 0, 1)); // TODO is this even helping...?
 			Debug.Log ("Jump " + Time.time + ": " + _myRigidBody.velocity);
 			_myRigidBody.AddForce (new Vector3(0,_jumpHeight,0), ForceMode.Impulse);
+			_nextJumpTime = Time.time + _delayBetweenJumps;
 		}
-		_jumpPressed = false;
+	}
+
+	private void CheckAccel ()
+	{
+    	float currentAccel = Input.acceleration.y;
+		float accelDiff = Mathf.Abs (_accel - currentAccel);
+		_isPhoneShaking = accelDiff >= _accelThreshold;
+		_accel = currentAccel;
 	}
 
 	public void LookAt(Vector3 point)
@@ -85,10 +95,11 @@ public class PlayerController : MonoBehaviour {
 		transform.LookAt (lookPosition);
 	}
 
-	private void JumpPressed ()
-	{
-		_jumpPressed = true;
-	}
+	bool _isPhoneShaking;
+	float _accel;
+	float _accelThreshold = .45f;
+	float _delayBetweenJumps = .5f; // fix low double jump bug
+	float _nextJumpTime;
 
 	public bool _isAndroid;
 	public VirtualJoystick _shootStick;
@@ -97,7 +108,6 @@ public class PlayerController : MonoBehaviour {
 	public GunController _gunController;
 	Player _player;
 	public Button _jumpButton;
-	private bool _jumpPressed;
 	public int _jumpHeight;
 	private Transform _lockObject;
 }
