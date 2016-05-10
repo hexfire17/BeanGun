@@ -91,11 +91,9 @@ public class GameUI : MonoBehaviour {
 	{
 		float percentLost = damage / _playerMaxHealth;
 		float sizeMinus = _healthBarStartLength * percentLost;
-		Debug.Log ("DAM: " + damage);
-		Debug.Log ("MAX_H: " + _playerMaxHealth);
-		Debug.Log ("SIZE_MIN: " + sizeMinus);
-
+		Debug.Log ("SM: "+sizeMinus);
 		_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
+		_healthBar.anchoredPosition -= new Vector2 (sizeMinus, 0) * .5f;
 	}
 
 	public Image _fadePlane;
