@@ -31,7 +31,7 @@ public class Gun : MonoBehaviour
 			{
 				Transform currentSpawn = _projectileSpawns [i];
 				Projectile projectile = Instantiate (_projectile, currentSpawn.position, currentSpawn.rotation) as Projectile;
-				projectile.SetSpeed (_projectileVelocity);
+				projectile._speed = _projectileVelocity;
 
 				// Configure next shots
 				_nextShotTime = Time.time + _millisBetweenShots / 1000;

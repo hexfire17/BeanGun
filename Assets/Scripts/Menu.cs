@@ -8,7 +8,6 @@ public class Menu : MonoBehaviour {
 	{
 		_menuOpen = false;
 	}
-
 	public void OnArrowClick ()
 	{
 		Debug.Log ("clicked");
@@ -33,8 +32,8 @@ public class Menu : MonoBehaviour {
 		while (annimatePercent <= 1) 
 		{
 			annimatePercent += Time.deltaTime * speed;
-			float yVal = Mathf.Lerp (800, -1100, annimatePercent);
-			Vector2 modifiedVector = new Vector2 (_menuBox.anchoredPosition.x, yVal);
+			float xVal = Mathf.Lerp (77, 2000, annimatePercent);
+			Vector2 modifiedVector = new Vector2 (xVal, _menuBox.anchoredPosition.y);
 			_menuBox.anchoredPosition = modifiedVector;
 			yield return null;
 		}
@@ -56,8 +55,8 @@ public class Menu : MonoBehaviour {
 		while (annimatePercent <= 1) 
 		{
 			annimatePercent += Time.deltaTime * speed;
-			float yVal = Mathf.Lerp (-1100, -5000, annimatePercent);
-			Vector2 modifiedVector = new Vector2 (_menuBox.anchoredPosition.x, yVal);
+			float xVal = Mathf.Lerp (2000, 5000, annimatePercent);
+			Vector2 modifiedVector = new Vector2 (xVal, _menuBox.anchoredPosition.y);
 			_menuBox.anchoredPosition = modifiedVector;
 			yield return null;
 		}

@@ -13,12 +13,6 @@ public class Projectile : MonoBehaviour {
 		}
 	}
 	
-	// Use this for initialization
-	public void SetSpeed (float speed)
-	{
-		_speed = speed;
-	}
-	
 	// Update is called once per frame
 	void Update ()
 	{
@@ -49,8 +43,9 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public LayerMask _collisionMask;
-	float _speed = 10;
-	float _damage = 1;
-	float _ttlSecs = 3;
+
+	public float _speed { get; set; }
+	public float _damage { get; set; }
+	public float _ttlSecs = 3;
 	float _skinWidth = .1f;
 }
