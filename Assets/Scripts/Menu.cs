@@ -7,7 +7,31 @@ public class Menu : MonoBehaviour {
 	void Start ()
 	{
 		_menuOpen = false;
+		_player = FindObjectOfType<Player> ();
 	}
+
+	public void IncrementShootSpeed ()
+	{
+		_player.GetComponent<GunController> ()._equippedGun._projectileVelocity++;
+		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots--;
+	}
+
+	public void DecrementShootSpeed ()
+	{
+		_player.GetComponent<GunController> ()._equippedGun._projectileVelocity--;
+		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots++;
+	}
+
+	public void IncrementDamage ()
+	{
+		_player.GetComponent<GunController> ()._equippedGun._gunDamage++;
+	}
+
+	public void DecrementDamage ()
+	{
+		_player.GetComponent<GunController> ()._equippedGun._gunDamage++;
+	}
+
 	public void OnArrowClick ()
 	{
 		Debug.Log ("clicked");
@@ -64,6 +88,7 @@ public class Menu : MonoBehaviour {
 
 	bool _menuOpen;
 	public RectTransform _menuBox;
+	public Player _player;
 
 	// SetUserPrefs
 }

@@ -32,6 +32,7 @@ public class Gun : MonoBehaviour
 				Transform currentSpawn = _projectileSpawns [i];
 				Projectile projectile = Instantiate (_projectile, currentSpawn.position, currentSpawn.rotation) as Projectile;
 				projectile._speed = _projectileVelocity;
+				projectile._damage = _gunDamage;
 
 				// Configure next shots
 				_nextShotTime = Time.time + _millisBetweenShots / 1000;
@@ -78,6 +79,7 @@ public class Gun : MonoBehaviour
 	public Transform _shell;
 	public Transform _shellEjectionPoint;
 
+	public float _gunDamage = 1; // TODO damage stacks like 10 for gun and 2 for bullet then other bullet might have like 10...?
 	public float _maxRecoilAngle = 15;
 	public float _recoilIncrement = 5;
 	public float _maxRecoilRandomDeviation = 0; // TODO use this!

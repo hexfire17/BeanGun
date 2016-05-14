@@ -46,6 +46,6 @@ public class Projectile : MonoBehaviour {
 
 	public float _speed { get; set; }
 	public float _damage { get; set; }
-	public float _ttlSecs = 3;
+	float _ttlSecs = 3;
 	float _skinWidth = .1f;
 }
