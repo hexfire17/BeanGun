@@ -89,10 +89,11 @@ public class GameUI : MonoBehaviour {
 
 	void OnPlayerHit(float damage)
 	{
-		float percentLost = damage / _playerMaxHealth;
-		float sizeMinus = _healthBarStartLength * percentLost;
-		_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
-		_healthBar.anchoredPosition -= new Vector2 (sizeMinus, 0) * .5f;
+		_healthbar.Add (damage * -1);
+		//float percentLost = damage / _playerMaxHealth;
+		//float sizeMinus = _healthBarStartLength * percentLost;
+		//_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
+		//_healthBar.anchoredPosition -= new Vector2 (sizeMinus, 0) * .5f;
 	}
 
 	public void SetDebugText (string text)
@@ -111,6 +112,7 @@ public class GameUI : MonoBehaviour {
 	public RectTransform _healthBar;
 	float _healthBarStartLength;
 	float _playerMaxHealth;
+	public StatBar _healthbar;
 
 	Spawner _spawner;
 }

@@ -62,6 +62,7 @@
      <Compile Include="Assets\Scripts\Shell.cs" />
      <Compile Include="Assets\Scripts\SimpleButton.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />
+     <Compile Include="Assets\Scripts\StatBar.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
      <Compile Include="Assets\Scripts\VirtualJoystick.cs" />
  <Reference Include="UnityEngine.UI">
