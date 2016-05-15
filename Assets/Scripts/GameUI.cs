@@ -13,18 +13,20 @@ public class GameUI : MonoBehaviour {
 		_spawner.OnNewWave += OnNewWave;
 		_player.OnHit += OnPlayerHit;
 		_healthBarStartLength = _healthBar.sizeDelta.x;
+		_logger = GetComponent<Logger> ();
 	}
 
 	// Use this for initialization
 	void Start () {
 		FindObjectOfType<Player> ().onDeath += GameOver;
 		_playerMaxHealth = _player._health;
+		_healthbar._maxValue = _playerMaxHealth;
 
 	}
 
 	public void StartNewGame ()
 	{
-		Debug.Log ("Starting New Game");
+		_logger.Debug ("Starting New Game");
 		SceneManager.LoadScene ("Main");
 	}
 
@@ -52,7 +54,6 @@ public class GameUI : MonoBehaviour {
 		bool annimationComplete = false;
 		while (!annimationComplete) {
 			annimationRange += Time.deltaTime * speed * direction;
-			Debug.Log (annimationRange);
 			// reverse direction once we hit here
 			if (annimationRange >= 1) {
 				direction = up;
@@ -89,7 +90,7 @@ public class GameUI : MonoBehaviour {
 
 	void OnPlayerHit(float damage)
 	{
-		_healthbar.Add (damage * -1);
+		_healthbar.Add (damage);
 		//float percentLost = damage / _playerMaxHealth;
 		//float sizeMinus = _healthBarStartLength * percentLost;
 		//_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
@@ -115,4 +116,6 @@ public class GameUI : MonoBehaviour {
 	public StatBar _healthbar;
 
 	Spawner _spawner;
+
+	Logger _logger;
 }

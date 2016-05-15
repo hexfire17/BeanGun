@@ -5,7 +5,8 @@ public class Spawner : MonoBehaviour {
 	
 	void Start()
 	{
-		Debug.Log ("Spawner started");
+		_logger = GetComponent<Logger> ();
+		_logger.Debug ("Spawner started");
 
 		_playerDead = false;
 		_player = FindObjectOfType<Player> ();
@@ -47,7 +48,7 @@ public class Spawner : MonoBehaviour {
 
 	IEnumerator SpawnEnemy()
 	{
-		Debug.Log ("Spawning enemy, remaining: " + _enemiesRemainingToSpawn);
+		_logger.Debug ("Spawning enemy, remaining: " + _enemiesRemainingToSpawn);
 		_nextSpawnTime = Time.time + _currentWave._timeBetweenSpawns;
 
 		float spawnDelay = 1;
@@ -55,7 +56,7 @@ public class Spawner : MonoBehaviour {
 
 		Transform tile = _map.getRandomTile ();
 		if (_isCamping) {
-			Debug.Log ("Using camper tile");
+			_logger.Debug ("Using camper tile");
 			tile = _map.getTile (_playerTransform.position);
 		}
 
@@ -107,7 +108,7 @@ public class Spawner : MonoBehaviour {
 		{
 			NextWave();	
 		}
-		Debug.Log ("Enemy Died");
+		_logger.Debug ("Enemy Died");
 	}
 
 	void OnPlayerDeath()
@@ -142,6 +143,8 @@ public class Spawner : MonoBehaviour {
 	Color _tileColor;
 
 	public bool _devMode;
+
+	Logger _logger;
 	
     [System.Serializable]
 	public class Wave
