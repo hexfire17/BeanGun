@@ -11,6 +11,13 @@ public class StatBar : MonoBehaviour {
 		Debug.Log ("StartSize: " + _valueRectStartLength);
 	}
 
+	public void Init (float maxVal, float currVal)
+	{
+		_maxValue = maxVal;
+		Subtract (maxVal);
+		Add (currVal);
+	}
+
 	public void Subtract(float points)
 	{
 		float percentLost = points / _maxValue;
@@ -29,6 +36,6 @@ public class StatBar : MonoBehaviour {
 
 	public RectTransform _fill;
 	public RectTransform _background;
-	public float _maxValue { set; get;}
+	float _maxValue;
 	float _valueRectStartLength;
 }

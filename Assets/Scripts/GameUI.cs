@@ -20,7 +20,7 @@ public class GameUI : MonoBehaviour {
 	void Start () {
 		FindObjectOfType<Player> ().onDeath += GameOver;
 		_playerMaxHealth = _player._health;
-		_healthbar._maxValue = _playerMaxHealth;
+		_healthbar.Init (_playerMaxHealth, _playerMaxHealth);
 
 	}
 
@@ -90,7 +90,7 @@ public class GameUI : MonoBehaviour {
 
 	void OnPlayerHit(float damage)
 	{
-		_healthbar.Add (damage);
+		_healthbar.Subtract (damage);
 		//float percentLost = damage / _playerMaxHealth;
 		//float sizeMinus = _healthBarStartLength * percentLost;
 		//_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
