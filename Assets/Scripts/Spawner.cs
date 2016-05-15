@@ -103,6 +103,10 @@ public class Spawner : MonoBehaviour {
 	
 	void OnEnemyDeath()
 	{
+		if (OnEnemyKilled != null) {
+			OnEnemyKilled ();
+		}
+
 		_enemiesRemaining--;
 		if (_enemiesRemaining == 0)
 		{
@@ -143,6 +147,8 @@ public class Spawner : MonoBehaviour {
 	Color _tileColor;
 
 	public bool _devMode;
+
+	public event System.Action OnEnemyKilled;
 
 	Logger _logger;
 	

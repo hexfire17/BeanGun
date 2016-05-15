@@ -11,6 +11,7 @@ public class GameUI : MonoBehaviour {
 		_spawner = FindObjectOfType<Spawner> ();
 		_player = FindObjectOfType<Player> ();
 		_spawner.OnNewWave += OnNewWave;
+		_spawner.OnEnemyKilled += OnEnemyDeath;
 		_player.OnHit += OnPlayerHit;
 		_healthBarStartLength = _healthBar.sizeDelta.x;
 		_logger = GetComponent<Logger> ();
@@ -91,10 +92,11 @@ public class GameUI : MonoBehaviour {
 	void OnPlayerHit(float damage)
 	{
 		_healthbar.Subtract (damage);
-		//float percentLost = damage / _playerMaxHealth;
-		//float sizeMinus = _healthBarStartLength * percentLost;
-		//_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
-		//_healthBar.anchoredPosition -= new Vector2 (sizeMinus, 0) * .5f;
+	}
+
+	void OnEnemyDeath()
+	{
+		_healthbar.Add (1);
 	}
 
 	public void SetDebugText (string text)
