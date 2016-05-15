@@ -75,6 +75,7 @@ public class GameUI : MonoBehaviour {
 	void GameOver ()
 	{
 		StartCoroutine (Fade (Color.clear, Color.black, 1));
+
 	}
 
 	IEnumerator Fade (Color fadeFrom, Color fadeTo, float time)
@@ -88,6 +89,7 @@ public class GameUI : MonoBehaviour {
 			yield return null;
 		}
 		_gameOverUI.SetActive (true);
+		_xpBar.gameObject.SetActive (false);
 	}
 
 	void OnPlayerHit(float damage)
