@@ -10,7 +10,7 @@ public class Menu : MonoBehaviour {
 		_player = FindObjectOfType<Player> ();
 
 		_shootSpeedBar.Init (20,10);
-		_moveSpeedBar.Init (20, 1);
+		_moveSpeedBar.Init (20, 3);
 		_damageBar.Init (20, 1);
 	}
 
@@ -108,7 +108,7 @@ public class Menu : MonoBehaviour {
 
 	bool _menuOpen;
 	public RectTransform _menuBox;
-	public Player _player;
+	Player _player;
 
 	public StatBar _shootSpeedBar;
 	public StatBar _damageBar;
