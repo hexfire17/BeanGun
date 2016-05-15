@@ -90,7 +90,7 @@ public class GameUI : MonoBehaviour {
 
 	void OnPlayerHit(float damage)
 	{
-		_healthbar.Subtract (damage);
+		_healthbar.Add (damage);
 		//float percentLost = damage / _playerMaxHealth;
 		//float sizeMinus = _healthBarStartLength * percentLost;
 		//_healthBar.sizeDelta -= new Vector2 (sizeMinus, 0);
