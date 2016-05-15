@@ -17,14 +17,14 @@ public class Menu : MonoBehaviour {
 	public void IncrementShootSpeed ()
 	{
 		_player.GetComponent<GunController> ()._equippedGun._projectileVelocity++;
-		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots--;
+		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots-= 3;
 		_shootSpeedBar.Add (1);
 	}
 
 	public void DecrementShootSpeed ()
 	{
 		_player.GetComponent<GunController> ()._equippedGun._projectileVelocity--;
-		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots++;
+		_player.GetComponent<GunController> ()._equippedGun._millisBetweenShots+= 3;
 		_shootSpeedBar.Subtract (1);
 	}
 
