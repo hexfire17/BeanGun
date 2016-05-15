@@ -22,6 +22,7 @@ public class GameUI : MonoBehaviour {
 		FindObjectOfType<Player> ().onDeath += GameOver;
 		_playerMaxHealth = _player._health;
 		_healthbar.Init (_playerMaxHealth, _playerMaxHealth);
+		_xpBar.Init (100, 0); //max, curr
 
 	}
 
@@ -96,7 +97,7 @@ public class GameUI : MonoBehaviour {
 
 	void OnEnemyDeath()
 	{
-		_healthbar.Add (1);
+		_xpBar.Add (1);
 	}
 
 	public void SetDebugText (string text)
@@ -116,6 +117,7 @@ public class GameUI : MonoBehaviour {
 	float _healthBarStartLength;
 	float _playerMaxHealth;
 	public StatBar _healthbar;
+	public StatBar _xpBar;
 
 	Spawner _spawner;
 
