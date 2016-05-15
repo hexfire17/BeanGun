@@ -14,7 +14,7 @@ public class GameUI : MonoBehaviour {
 		_spawner.OnEnemyKilled += OnEnemyDeath;
 		_player.OnHit += OnPlayerHit;
 		_healthBarStartLength = _healthBar.sizeDelta.x;
-		_logger = GetComponent<Logger> ();
+		_logger = FindObjectOfType<Logger> ();
 	}
 
 	// Use this for initialization
