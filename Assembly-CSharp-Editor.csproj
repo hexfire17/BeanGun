@@ -47,6 +47,8 @@
   <ItemGroup>
      <Compile Include="Assets\Editor\MapEditor.cs" />
      <None Include="Assets\Shaders\MyShader.shader" />
+     <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
+     <None Include="Assets\TSF\Shaders\TSF.shader" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>

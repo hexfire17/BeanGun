@@ -66,6 +66,8 @@
      <Compile Include="Assets\Scripts\Utility.cs" />
      <Compile Include="Assets\Scripts\VirtualJoystick.cs" />
      <None Include="Assets\Shaders\MyShader.shader" />
+     <None Include="Assets\TSF\Shaders\TSFOutline.shader" />
+     <None Include="Assets\TSF\Shaders\TSF.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

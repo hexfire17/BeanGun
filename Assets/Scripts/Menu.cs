@@ -43,13 +43,13 @@ public class Menu : MonoBehaviour {
 	public void IncrementMoveSpeed ()
 	{
 		_moveSpeedBar.Add (1);
-		_player._moveSpeed = _player._moveSpeed + 1;
+		_player._moveSpeed = _player._moveSpeed + .5f;
 	}
 
 	public void DecrementMoveSpeed ()
 	{
 		_moveSpeedBar.Subtract (1);
-		_player._moveSpeed = _player._moveSpeed - 1;
+		_player._moveSpeed = _player._moveSpeed - .5f;
 	}
 
 	public void OnArrowClick ()

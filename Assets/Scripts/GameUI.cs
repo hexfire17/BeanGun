@@ -23,7 +23,7 @@ public class GameUI : MonoBehaviour {
 		_playerMaxHealth = _player._health;
 		_healthbar.Init (_playerMaxHealth, _playerMaxHealth);
 		_xpBar.Init (100, 0); //max, curr
-
+		_camera = FindObjectOfType<Camera> ();
 	}
 
 	public void StartNewGame ()
@@ -95,6 +95,7 @@ public class GameUI : MonoBehaviour {
 	void OnPlayerHit(float damage)
 	{
 		_healthbar.Subtract (damage);
+		// shake camera
 	}
 
 	void OnEnemyDeath()
@@ -123,5 +124,8 @@ public class GameUI : MonoBehaviour {
 
 	Spawner _spawner;
 
+	Vector3 _cameraSmoothDampVelocity;
+
 	Logger _logger;
+	Camera _camera;
 }
